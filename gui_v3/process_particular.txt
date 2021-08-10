@@ -1,0 +1,3 @@
+minimam+ 13503 13061  0 03:10 pts/4    00:00:00 /usr/bin/python /opt/ros/melodic/bin/rqt
+minimam+ 13794 12918  0 03:19 pts/2    00:00:00 vim rqt_off.sh
+minimam+ 13801 13061  0 03:20 pts/4    00:00:00 /usr/bin/python /opt/ros/melodic/bin/rqt
