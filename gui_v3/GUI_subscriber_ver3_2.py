@@ -8,16 +8,18 @@ import cv2
 import subprocess
 import random
 
-route_pi = '/home/pi/Archive/Study/FaceDetector/haarcascade_frontalface_default.xml'
-route_window = 'C:/Users/minimamba/Documents/Archive/Study/FaceDetector/haarcascade_frontalface_default.xml'
-route_jetson = '/home/minimamba/Archive/Study/FaceDetector/'
-route_home = '/home/'
-route_package = '/home/minimamba/catkin_ws/src/basics/scripts'
+#---------------------------------------------- Directory Path ----------------------------------------------
+path_pi = '/home/pi/Archive/Study/FaceDetector/haarcascade_frontalface_default.xml'
+path_window = 'C:/Users/minimamba/Documents/Archive/Study/FaceDetector/haarcascade_frontalface_default.xml'
+path_jetson = '/home/minimamba/Archive/Study/FaceDetector/'
+path_home = '/home/'
+path_package = '/home/minimamba/catkin_ws/src/basics/scripts/'
 
-# Define user function
+
+#---------------------------------------------- User Function ----------------------------------------------
 def callback(data):
                 print(type(data)) #"<class 'std_msgs.msg._String.String'>":
-                # subprocess.call('python face.py',shell=True, cwd=route_jetson)
+                # subprocess.call('python face.py',shell=True, cwd=path_jetson)
                 if str(type(data.data)) =="<class 'str'>": 
                         callback_String(data)
                 else:
@@ -49,33 +51,39 @@ def callback_String(data):
                 print(data.data)
 
         elif data.data == 'camera on':
-                subprocess.call('python faceScan.py &',shell=True, cwd=route_package)
-        
-        elif data.data == 'camera off':
-                subprocess.call('bash camera_off.sh',shell=True, cwd=route_package)
+                subprocess.call('python faceScan.py &',shell=True, cwd=path_package)
 
         elif data.data == 'rqt on':
-                subprocess.call('rqt_graph &',shell=True, cwd=route_home)
+                subprocess.call('rqt_graph &',shell=True, cwd=path_home)
 
         elif data.data == 'rqt off':
-                subprocess.call('F1',shell=True, cwd=route_home)
+                subprocess.call('F1',shell=True, cwd=path_home)
 
         elif data.data == 'distance':
-               nano.distance()
+                nano.sonar_disance()
 
         elif data.data == 'lidar':
                 pass
+
+        elif data.data == '(auto) git commit':
+                subprocess.call('bash git_commit.sh',shell=True, cwd=path_package)
+
+        elif data.data == '(auto) git push':
+                subprocess.call('bash git_push.sh',shell=True, cwd=path_package)
 
         else:
                 print(data.data + " is not option")
                 # p.stop()                # stop PWM
 
+
+#---------------------------------------------- ROS Subscriber Topic ----------------------------------------------
 class Subscriber():
         def __init__(self):
                 # rospy.init_node("RapberryPi4")
                 pass
    
 
+#---------------------------------------------- Jetson Nano ----------------------------------------------
 class JetsonNano():
         def __init__(self):
                 # Setting pin number
@@ -160,7 +168,9 @@ class JetsonNano():
                 self.distance = check_time * 34300 / 2
                 print(self.distance)
                 # return self.distance
-#main
+
+
+#---------------------------------------------- main ----------------------------------------------
 button = 0
 msg_list = list()
 count = 0
